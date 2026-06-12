@@ -101,7 +101,7 @@ else:
     if selected:
         chat_col, detail_col = st.columns([1, 1])
         with chat_col:
-            with st.container(height=750):
+            with st.container(height=750, border=False):
                 render_chat_panel(store, embedder, settings, session_id, db_path)
         with detail_col:
             with st.container(height=750):
