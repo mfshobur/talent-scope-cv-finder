@@ -1,0 +1,26 @@
+**Deskripsi Pekerjaan: Data Analyst**
+
+**Tentang Posisi**  
+Kami mencari seorang Data Analyst yang berdedikasi dan terampil untuk bergabung dengan tim kami. Dalam peran ini, Anda akan bertanggung jawab untuk menganalisis dan memvisualisasikan data guna mendukung pengambilan keputusan strategis perusahaan. Anda akan berkolaborasi dengan berbagai departemen untuk memberikan wawasan yang berbasis data.
+
+**Tanggung Jawab Utama**  
+- Mengumpulkan, membersihkan, dan menganalisis data dari berbagai sumber untuk menghasilkan laporan yang akurat dan relevan.
+- Mengembangkan dan mengelola visualisasi data menggunakan alat seperti Power BI dan Tableau untuk mendukung presentasi hasil analisis.
+- Membuat query SQL untuk ekstraksi dan pengolahan data guna memastikan integritas serta keakuratan data.
+- Menerapkan analisis statistik menggunakan Python dan Excel untuk mengidentifikasi tren dan pola yang dapat digunakan dalam pengambilan keputusan.
+- Bekerja sama dengan tim lintas fungsi untuk mendefinisikan kebutuhan analisis dan menginterpretasikan hasilnya.
+- Menyusun dokumentasi proses analisis dan menyajikan temuan kepada pemangku kepentingan secara efektif.
+- Terus-menerus melakukan pencarian cara baru dan inovatif untuk meningkatkan kualitas dan efisiensi proses analisis data.
+
+**Kualifikasi yang Dibutuhkan**
+- Gelar S1 di bidang Teknik Informatika, Statistika, atau Matematika dari universitas terkemuka.
+- Pengalaman kerja 1-3 tahun sebagai Data Analyst atau posisi yang relevan.
+- Kemampuan yang baik dalam SQL untuk pengolahan dan analisis data.
+- Keahlian dalam menggunakan alat visualisasi data seperti Power BI dan Tableau.
+- Pemahaman yang kuat tentang analisis data menggunakan Python dan Excel.
+- Kemampuan analitis dan pemecahan masalah yang tinggi serta perhatian terhadap detail.
+
+**Kualifikasi Tambahan**
+- Sertifikasi di bidang analisis data atau perangkat lunak analisis merupakan nilai tambah.
+- Pengalaman dengan teknik machine learning atau data mining akan dianggap sebagai keunggulan.
+- Kemampuan komunikasi yang baik dalam Bahasa Inggris, baik lisan maupun tulisan.

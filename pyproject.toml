@@ -1,0 +1,34 @@
+[project]
+name = "internaltalent"
+version = "0.1.0"
+description = "AI-powered internal talent mobility tool"
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit>=1.35.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.3.0",
+    "litellm>=1.40.0",
+    "chromadb>=0.5.0",
+    "pymupdf>=1.24.0",
+    "reportlab>=4.2.0",
+    "tenacity>=8.3.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-mock>=3.14.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+markers = ["integration: requires live API key and real data files"]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore:builtin type:DeprecationWarning",
+    "ignore:There is no current event loop:DeprecationWarning",
+]

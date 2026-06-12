@@ -1,0 +1,26 @@
+### Deskripsi Pekerjaan: AI/ML Engineer
+
+**Tentang Posisi:**  
+Sebagai AI/ML Engineer, Anda akan berperan penting dalam pengembangan solusi cerdas yang menghadirkan nilai tambah bagi perusahaan. Anda akan bekerja di lingkungan yang dinamis dengan tim yang kompeten untuk menciptakan dan mengimplementasikan model Machine Learning yang inovatif menggunakan teknologi terkini.
+
+**Tanggung Jawab Utama:**
+- Merancang dan mengembangkan model Machine Learning menggunakan Python dan PyTorch untuk berbagai aplikasi bisnis.
+- Mengimplementasikan dan mengelola API aplikasi menggunakan FastAPI untuk memastikan integrasi yang efektif dengan sistem yang ada.
+- Kolaborasi dengan tim lintas fungsi untuk mengidentifikasi kebutuhan dan tantangan bisnis yang dapat diatasi dengan teknologi AI.
+- Melakukan analisis data yang mendalam untuk meningkatkan performa model dan meningkatkan akurasi hasil prediksi.
+- Mengoptimalkan pipeline Machine Learning dan mengatasi isu-isu teknis yang muncul selama pengembangan.
+- Membuat dokumentasi teknis yang jelas dan menyeluruh untuk setiap proyek dan solusi yang dikembangkan.
+- Melakukan penelitian dan pengembangan untuk menciptakan inovasi baru dalam bidang AI dan Machine Learning, termasuk eksplorasi penggunaan LangChain.
+
+**Kualifikasi yang Dibutuhkan:**
+- Gelar S1 di bidang Teknik Informatika atau Ilmu Komputer dari universitas terkemuka.
+- Pengalaman kerja 2-5 tahun di bidang AI/ML dengan pemahaman mendalam tentang algoritma Machine Learning.
+- Kemahiran dalam bahasa pemrograman Python dan framework PyTorch.
+- Familiaritas dengan pengembangan API menggunakan FastAPI atau teknologi sejenis.
+- Kemampuan analitis yang kuat dengan kemampuan bekerja dengan dataset besar dan kompleks.
+- Komunikasi yang efektif dan kemampuan untuk bekerja sama dalam tim multidisiplin.
+
+**Kualifikasi Tambahan:**
+- Pengalaman dalam penerapan metode NLP (Natural Language Processing) dan penggunaan LangChain.
+- Pengetahuan tentang cloud platforms seperti AWS, Google Cloud, atau Azure.
+- Sertifikasi terkait Machine Learning atau AI akan menjadi nilai tambah.

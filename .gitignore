@@ -1,0 +1,17 @@
+.env
+sessions.db
+data/employees/emp_001_shobur/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+logs/*.log
+.DS_Store
+**/.DS_Store
+**/__pycache__/
+.python-version
