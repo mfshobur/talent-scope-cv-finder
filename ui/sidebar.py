@@ -84,7 +84,8 @@ def render_sidebar() -> Settings:
             )
             default_model = saved.llm_model or MODEL_DEFAULTS[provider]
             llm_model = st.text_input("Model", value=default_model, key="sb_model")
-            api_key = st.text_input("API Key", value=saved.llm_api_key, type="password", key="sb_apikey")
+            api_key = st.text_input("API Key", value="", placeholder="Leave blank to use server key",
+                                    type="password", key="sb_apikey")
             base_url = st.text_input(
                 "Base URL",
                 value=saved.llm_base_url,
@@ -95,7 +96,7 @@ def render_sidebar() -> Settings:
             if st.button("Save Config", use_container_width=True, type="primary"):
                 new_settings = Settings(
                     llm_model=llm_model,
-                    llm_api_key=api_key,
+                    llm_api_key=api_key if api_key.strip() else saved.llm_api_key,
                     llm_base_url=base_url,
                     vision_model=llm_model,
                     embedding_model=saved.embedding_model,
