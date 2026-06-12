@@ -23,6 +23,19 @@ Built as a portfolio project demonstrating end-to-end AI engineering: document p
 
 ---
 
+## Screenshots
+
+**Chat — agent returns ranked candidates with inline cards**
+![Chat](assets/screenshot_chat_1.png)
+
+**Chat — candidate profile open with assessments**
+![Chat profile](assets/screenshot_chat_2.png)
+
+**Browse All Employees — filter and view profiles**
+![Browse](assets/screenshot_browse_employees.png)
+
+---
+
 ## Architecture
 
 ```
@@ -201,12 +214,29 @@ The vision model (for CV parsing) and embedding model can be set independently i
 
 ## Deployment (Streamlit Community Cloud)
 
-1. Push repo to GitHub (public)
+1. Fork or push this repo to GitHub
 2. Go to [share.streamlit.io](https://share.streamlit.io) → New app → select repo → entry point: `app.py`
-3. Add secrets in the Streamlit dashboard (same keys as `.env.example`)
+3. Add secrets in the Streamlit dashboard:
+
+```toml
+OPENAI_API_KEY = "sk-..."       # or your preferred provider key
+ADMIN_PASSWORD = "yourpassword" # protects the Admin panel
+```
+
 4. Deploy
 
-The `chroma_db/` directory is committed to the repo, so the app starts with data already loaded — no ingestion step needed on the server.
+The `chroma_db/` directory is committed — no ingestion step needed on the server.
+
+### First-time setup after deploy
+
+The Chat view requires an access key. To generate one:
+
+1. Open the app → go to **Admin** in the sidebar
+2. Log in with your `ADMIN_PASSWORD`
+3. Click **Generate Key** → copy the key shown
+4. Go to **Chat** → enter the key
+
+For personal use, you only need to do this once. For sharing with others, generate a separate key per person — keys expire after 24 hours and can be revoked from the Admin panel.
 
 > **Note:** `data/employees/emp_001_shobur/` is gitignored (contains a real personal CV). The synthetic employees (emp_002–emp_021) are committed.
 
