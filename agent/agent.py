@@ -8,6 +8,8 @@ from collections.abc import Generator
 
 import litellm
 
+litellm.drop_params = True
+
 from agent.prompts import SYSTEM_PROMPT
 from agent.tools import build_tool_schemas, dispatch_tool
 from config.settings import Settings
