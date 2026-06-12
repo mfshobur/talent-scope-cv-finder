@@ -25,6 +25,8 @@ class Settings(BaseSettings):
 
     max_candidates_returned: int = 5
 
+    admin_password: str = ""
+
     def effective_llm_api_key(self) -> str:
         """Returns the best available API key for the configured provider."""
         if self.llm_api_key:
