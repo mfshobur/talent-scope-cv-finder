@@ -5,6 +5,7 @@ Full candidate profile panel — shown on the right side when a card is clicked.
 from pathlib import Path
 import streamlit as st
 from core.schemas import EmployeeProfile
+from ui.nine_box import load_kpi, load_akhlak
 
 ASSESSMENT_LABELS = {
     "psychotest": "Psikotes",
@@ -24,8 +25,8 @@ def render_detail_panel(profile: EmployeeProfile):
     st.caption(f"{cv.current_role} · {cv.department} · {cv.location}")
     st.divider()
 
-    tab_overview, tab_cv, tab_assessments, tab_files = st.tabs(
-        ["Overview", "CV Details", "Assessments", "Files"]
+    tab_overview, tab_perf, tab_cv, tab_assessments, tab_files = st.tabs(
+        ["Overview", "Performance", "CV Details", "Assessments", "Files"]
     )
 
     with tab_overview:
@@ -54,6 +55,68 @@ def render_detail_panel(profile: EmployeeProfile):
                     f'<span style="background:#1e40af;color:#e0f2fe;padding:2px 8px;border-radius:12px;font-size:0.8rem;display:inline-block">{skill}</span>',
                     unsafe_allow_html=True,
                 )
+
+    with tab_perf:
+        eid = profile.employee_id
+        kpi = load_kpi().get(eid)
+        akhlak = load_akhlak().get(eid)
+
+        if kpi:
+            st.markdown("#### Performance (KPI)")
+            score = kpi["score"]
+            label = kpi["label"]
+            kpi_color = "#16a34a" if score >= 80 else "#ca8a04" if score >= 60 else "#dc2626"
+            col_score, col_label = st.columns([1, 2])
+            col_score.markdown(
+                f"<div style='font-size:2.5rem;font-weight:700;color:{kpi_color};line-height:1'>"
+                f"{score}<span style='font-size:1rem'>%</span></div>",
+                unsafe_allow_html=True,
+            )
+            col_label.markdown(
+                f"<div style='margin-top:0.6rem;font-size:1rem;color:{kpi_color};font-weight:600'>"
+                f"{label}</div>",
+                unsafe_allow_html=True,
+            )
+            st.progress(score / 100)
+        else:
+            st.info("No KPI data available.")
+
+        st.divider()
+
+        if akhlak:
+            st.markdown("#### Potential (AKHLAK)")
+            composite = akhlak["composite"]
+            comp_color = "#16a34a" if composite >= 80 else "#ca8a04" if composite >= 60 else "#dc2626"
+            st.markdown(
+                f"<div style='font-size:1rem;font-weight:600;color:{comp_color};"
+                f"margin-bottom:4px'>Composite: {composite}%</div>",
+                unsafe_allow_html=True,
+            )
+            st.progress(composite / 100)
+            st.markdown("")
+
+            dims = [
+                ("Amanat",      "amanat"),
+                ("Kompeten",    "kompeten"),
+                ("Harmonis",    "harmonis"),
+                ("Loyal",       "loyal"),
+                ("Adaptif",     "adaptif"),
+                ("Kolaboratif", "kolaboratif"),
+            ]
+            for label_dim, key in dims:
+                val = akhlak[key]
+                bar_color = "#16a34a" if val >= 80 else "#ca8a04" if val >= 60 else "#dc2626"
+                col_name, col_bar, col_val = st.columns([2, 5, 1])
+                col_name.caption(label_dim)
+                col_bar.markdown(
+                    f"<div style='margin-top:6px;background:#1e293b;border-radius:4px;height:8px'>"
+                    f"<div style='width:{val}%;background:{bar_color};border-radius:4px;height:8px'></div>"
+                    f"</div>",
+                    unsafe_allow_html=True,
+                )
+                col_val.caption(f"{val}%")
+        else:
+            st.info("No AKHLAK data available.")
 
     with tab_cv:
         if cv.work_experience:
