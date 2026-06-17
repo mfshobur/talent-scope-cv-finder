@@ -68,22 +68,38 @@ def render_chat_panel(store: CandidateStore, embedder: Embedder, settings: Setti
 
         with chat_container:
             with st.chat_message("assistant"):
-                with st.spinner("Thinking..."):
-                    try:
-                        response_text, updated_history = collect_response(
-                            query=query,
-                            history=[m for m in history[:-1] if m["role"] in ("user", "assistant", "tool")],
-                            store=store,
-                            embedder=embedder,
-                            settings=settings,
-                        )
-                        _render_message_content(response_text, store, msg_index=len(history))
-                        st.session_state["messages"] = updated_history
-                        save_history(db_path, session_id, updated_history)
-                    except Exception as e:
-                        error_msg = f"⚠ Error: {e}"
-                        st.error(error_msg)
-                        history.append({"role": "assistant", "content": error_msg})
-                        st.session_state["messages"] = history
+                status_placeholder = st.empty()
+                status_placeholder.markdown("*Thinking...*")
+
+                _TOOL_STATUS = {
+                    "search_candidates": lambda a: f"Searching: *{a.get('query', '')}*",
+                    "get_candidate_detail": lambda a: f"Getting profile: *{a.get('employee_id', '')}*",
+                    "compare_candidates": lambda a: f"Comparing {len(a.get('employee_ids', []))} candidates...",
+                    "filter_candidates": lambda a: "Filtering candidates...",
+                }
+
+                def on_tool_call(tool_name: str, args: dict):
+                    label = _TOOL_STATUS.get(tool_name, lambda a: "Processing...")(args)
+                    status_placeholder.markdown(f"*{label}*")
+
+                try:
+                    response_text, updated_history = collect_response(
+                        query=query,
+                        history=[m for m in history[:-1] if m["role"] in ("user", "assistant", "tool")],
+                        store=store,
+                        embedder=embedder,
+                        settings=settings,
+                        on_tool_call=on_tool_call,
+                    )
+                    status_placeholder.empty()
+                    _render_message_content(response_text, store, msg_index=len(history))
+                    st.session_state["messages"] = updated_history
+                    save_history(db_path, session_id, updated_history)
+                except Exception as e:
+                    status_placeholder.empty()
+                    error_msg = f"⚠ Error: {e}"
+                    st.error(error_msg)
+                    history.append({"role": "assistant", "content": error_msg})
+                    st.session_state["messages"] = history
 
         st.rerun()

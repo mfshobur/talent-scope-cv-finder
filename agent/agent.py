@@ -4,7 +4,7 @@ run_agent() yields response text and returns updated message history.
 """
 
 import json
-from collections.abc import Generator
+from collections.abc import Callable, Generator
 
 import litellm
 
@@ -23,6 +23,7 @@ def run_agent(
     store: CandidateStore,
     embedder: Embedder,
     settings: Settings,
+    on_tool_call: Callable[[str, dict], None] | None = None,
 ) -> Generator[str, None, list[dict]]:
     """
     Yields response text chunks.
@@ -59,9 +60,11 @@ def run_agent(
         msg = response.choices[0].message
 
         if msg.tool_calls:
-            # Execute tools and append results to messages
             messages.append(msg.model_dump(exclude_none=True))
             for call in msg.tool_calls:
+                if on_tool_call:
+                    args = json.loads(call.function.arguments) if isinstance(call.function.arguments, str) else call.function.arguments
+                    on_tool_call(call.function.name, args)
                 result = dispatch_tool(
                     call.function.name,
                     call.function.arguments,
@@ -87,9 +90,10 @@ def collect_response(
     store: CandidateStore,
     embedder: Embedder,
     settings: Settings,
+    on_tool_call: Callable[[str, dict], None] | None = None,
 ) -> tuple[str, list[dict]]:
     """Convenience wrapper — collects full response and returns (text, updated_history)."""
-    gen = run_agent(query, history, store, embedder, settings)
+    gen = run_agent(query, history, store, embedder, settings, on_tool_call=on_tool_call)
     full_text = ""
     updated_history = history
     try:
