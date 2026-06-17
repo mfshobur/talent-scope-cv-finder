@@ -5,6 +5,7 @@ handles input, and runs the agent.
 
 import re
 import streamlit as st
+import streamlit.components.v1 as components
 
 from agent.agent import collect_response
 from core.embedder import Embedder
@@ -51,6 +52,15 @@ def render_chat_panel(store: CandidateStore, embedder: Embedder, settings: Setti
                 else:
                     st.markdown(content)
 
+    # Scroll chat container to bottom after every rerun (preserves position on View Profile clicks)
+    components.html(
+        """<script>
+        window.parent.document.querySelectorAll('[data-testid="stVerticalBlockBorderWrapper"]')
+            .forEach(el => { if (el.scrollHeight > el.clientHeight) el.scrollTop = el.scrollHeight; });
+        </script>""",
+        height=0,
+    )
+
     # 9-Box toggle (shown when candidates are available from last search)
     if st.session_state.get("nine_box_emp_ids"):
         show = st.session_state.get("show_nine_box", False)
@@ -86,13 +96,23 @@ def render_chat_panel(store: CandidateStore, embedder: Embedder, settings: Setti
                     "filter_candidates": lambda a: "Filtering candidates...",
                 }
 
-                with st.spinner(""):
-                    status_placeholder = st.empty()
-                    status_placeholder.markdown("*Thinking...*")
+                _SPINNER = (
+                    "<style>@keyframes _tsspin{to{transform:rotate(360deg)}}"
+                    "._tsspin{display:inline-block;width:13px;height:13px;"
+                    "border:2px solid rgba(255,255,255,0.15);border-top-color:#e2e8f0;"
+                    "border-radius:50%;animation:_tsspin .75s linear infinite;"
+                    "vertical-align:middle;margin-right:7px}</style>"
+                )
 
-                    def on_tool_call(tool_name: str, args: dict):
-                        label = _TOOL_STATUS.get(tool_name, lambda a: "Processing...")(args)
-                        status_placeholder.markdown(f"*{label}*")
+                def _status_md(text: str) -> str:
+                    return f'{_SPINNER}<span class="_tsspin"></span><em>{text}</em>'
+
+                status_placeholder = st.empty()
+                status_placeholder.markdown(_status_md("Thinking..."), unsafe_allow_html=True)
+
+                def on_tool_call(tool_name: str, args: dict):
+                    label = _TOOL_STATUS.get(tool_name, lambda a: "Processing...")(args)
+                    status_placeholder.markdown(_status_md(label), unsafe_allow_html=True)
 
                     try:
                         response_text, updated_history = collect_response(
