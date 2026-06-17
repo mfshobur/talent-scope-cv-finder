@@ -93,29 +93,28 @@ def render_chat_panel(store: CandidateStore, embedder: Embedder, settings: Setti
                     label = _TOOL_STATUS.get(tool_name, lambda a: "Processing...")(args)
                     status_placeholder.markdown(_status_md(label), unsafe_allow_html=True)
 
-                    try:
-                        response_text, updated_history = collect_response(
-                            query=query,
-                            history=[m for m in history[:-1] if m["role"] in ("user", "assistant", "tool")],
-                            store=store,
-                            embedder=embedder,
-                            settings=settings,
-                            on_tool_call=on_tool_call,
-                        )
-                        status_placeholder.empty()
-                        _render_message_content(response_text, store, msg_index=len(history))
-                        st.session_state["messages"] = updated_history
-                        save_history(db_path, session_id, updated_history)
-                        # Track candidates for 9-box
-                        found_ids = _CARD_TOKEN_RE.findall(response_text)
-                        if found_ids:
-                            st.session_state["nine_box_emp_ids"] = found_ids
-                            st.session_state["show_nine_box"] = False
-                    except Exception as e:
-                        status_placeholder.empty()
-                        error_msg = f"⚠ Error: {e}"
-                        st.error(error_msg)
-                        history.append({"role": "assistant", "content": error_msg})
-                        st.session_state["messages"] = history
+                try:
+                    response_text, updated_history = collect_response(
+                        query=query,
+                        history=[m for m in history[:-1] if m["role"] in ("user", "assistant", "tool")],
+                        store=store,
+                        embedder=embedder,
+                        settings=settings,
+                        on_tool_call=on_tool_call,
+                    )
+                    status_placeholder.empty()
+                    _render_message_content(response_text, store, msg_index=len(history))
+                    st.session_state["messages"] = updated_history
+                    save_history(db_path, session_id, updated_history)
+                    found_ids = _CARD_TOKEN_RE.findall(response_text)
+                    if found_ids:
+                        st.session_state["nine_box_emp_ids"] = found_ids
+                        st.session_state["show_nine_box"] = False
+                except Exception as e:
+                    status_placeholder.empty()
+                    error_msg = f"⚠ Error: {e}"
+                    st.error(error_msg)
+                    history.append({"role": "assistant", "content": error_msg})
+                    st.session_state["messages"] = history
 
         st.rerun()
