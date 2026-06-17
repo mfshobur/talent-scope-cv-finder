@@ -78,7 +78,7 @@ def run_agent(
             content = msg.content or ""
             yield content
             messages.append({"role": "assistant", "content": content})
-            return messages  # StopIteration.value = updated history
+            return messages[1:]  # strip system prompt — caller prepends it each turn
 
 
 def collect_response(

@@ -74,7 +74,7 @@ def render_chat_panel(store: CandidateStore, embedder: Embedder, settings: Setti
                     try:
                         response_text, updated_history = collect_response(
                             query=query,
-                            history=[m for m in history[:-1] if m["role"] in ("user", "assistant")],
+                            history=[m for m in history[:-1] if m["role"] in ("user", "assistant", "tool")],
                             store=store,
                             embedder=embedder,
                             settings=settings,
