@@ -87,20 +87,40 @@ def build_tool_schemas() -> list[dict]:
 
 # ── Tool implementations ──────────────────────────────────────────────────────
 
+def _calc_yoe(profile: EmployeeProfile) -> int:
+    """Total career span in years (current year minus earliest start year)."""
+    import datetime
+    exps = profile.cv.work_experience
+    if not exps:
+        return 0
+    current_year = datetime.date.today().year
+    return current_year - min(e.start_year for e in exps)
+
+
 def search_candidates(query: str, top_k: int, store: CandidateStore, embedder) -> dict:
     query_embedding = embedder.embed(query)
     results = store.search(query_embedding, n_results=top_k * 2)  # over-fetch for dedup
 
     candidates = []
-    for r in results[:top_k]:
+    seen = set()
+    for r in results:
+        eid = r["employee_id"]
+        if eid in seen:
+            continue
+        seen.add(eid)
+        profile = store.get_profile(eid)
+        yoe = _calc_yoe(profile) if profile else 0
         candidates.append({
-            "employee_id": r["employee_id"],
+            "employee_id": eid,
             "full_name": r["full_name"],
             "current_role": r["current_role"],
             "department": r["department"],
             "skills": r["skills"][:8],
+            "years_of_experience": yoe,
             "similarity_score": r["similarity"],
         })
+        if len(candidates) >= top_k:
+            break
     return {"query": query, "candidates": candidates, "total_found": len(results)}
 
 
