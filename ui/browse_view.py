@@ -56,6 +56,5 @@ def render_browse_view(store: CandidateStore):
                     st.caption(row["Skills (preview)"])
                 with c3:
                     if st.button("View", key=f"browse_view_{profile.employee_id}"):
-                        st.session_state["selected_candidate"] = profile
+                        st.session_state["pending_profile"] = profile
                         st.session_state["selected_match"] = {}
-                        st.rerun()

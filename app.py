@@ -19,6 +19,13 @@ from ui.browse_view import render_browse_view
 from ui.detail_panel import render_detail_panel
 from ui.access_gate import render_access_gate
 
+
+@st.dialog("Candidate Profile", width="large")
+def _profile_dialog() -> None:
+    profile = st.session_state.pop("pending_profile", None)
+    if profile:
+        render_detail_panel(profile)
+
 st.set_page_config(
     page_title="TalentScope",
     page_icon="assets/logo.png",
@@ -76,16 +83,7 @@ if not st.session_state.get("chat_access_granted"):
 nav = st.session_state.get("nav", "Chat")
 
 if nav == "Browse All":
-    selected = st.session_state.get("selected_candidate")
-    if selected:
-        browse_col, detail_col = st.columns([1, 1])
-        with browse_col:
-            render_browse_view(store)
-        with detail_col:
-            with st.container(height=750):
-                render_detail_panel(selected)
-    else:
-        render_browse_view(store)
+    render_browse_view(store)
 
 elif nav == "Admin":
     if not st.session_state.get("admin_authed"):
@@ -160,19 +158,8 @@ else:
     if not st.session_state.get("chat_access_granted"):
         render_access_gate(db_path)
     else:
-        selected = st.session_state.get("selected_candidate")
-        if selected:
-            chat_col, detail_col = st.columns([1, 1])
-            with chat_col:
-                with st.container(height=750, border=False):
-                    render_chat_panel(store, embedder, settings, session_id, db_path)
-            with detail_col:
-                with st.container(height=750):
-                    render_detail_panel(selected)
-        else:
-            render_chat_panel(store, embedder, settings, session_id, db_path)
+        render_chat_panel(store, embedder, settings, session_id, db_path)
 
-        # 9-box lives outside the column containers so it never gets clipped by height=750
         if st.session_state.get("nine_box_emp_ids"):
             from ui.nine_box import render_nine_box
             show = st.session_state.get("show_nine_box", False)
@@ -181,3 +168,7 @@ else:
                 st.rerun()
             if st.session_state.get("show_nine_box"):
                 render_nine_box(st.session_state["nine_box_emp_ids"], store)
+
+# Open profile dialog whenever pending_profile is set (from any View Profile / 9-box click)
+if "pending_profile" in st.session_state:
+    _profile_dialog()

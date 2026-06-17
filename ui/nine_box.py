@@ -120,9 +120,8 @@ def render_nine_box(emp_ids: list[str], store: CandidateStore) -> None:
                                 key=f"nb_{row_i}_{col_i}_{eid}",
                                 use_container_width=True,
                             ):
-                                st.session_state["selected_candidate"] = profile
+                                st.session_state["pending_profile"] = profile
                                 st.session_state["selected_match"] = {}
-                                st.rerun()
                             st.caption(f"KPI {kpi}% · AKHLAK {potential}%")
                     else:
                         st.markdown(

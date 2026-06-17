@@ -38,10 +38,9 @@ def render_inline_card(profile: EmployeeProfile, match_reasons: list[str] | None
                 st.markdown(f"⚠ {gap}")
 
         if st.button("View Profile", key=card_key or f"view_{eid}", use_container_width=True):
-            st.session_state["selected_candidate"] = profile
+            st.session_state["pending_profile"] = profile
             st.session_state["selected_match"] = {
                 "match_reasons": match_reasons or [],
                 "fit_gaps": fit_gaps or [],
                 "relevance_score": relevance_score,
             }
-            st.rerun()

@@ -20,16 +20,8 @@ def render_detail_panel(profile: EmployeeProfile):
     cv = profile.cv
     match_info = st.session_state.get("selected_match", {})
 
-    col_title, col_close = st.columns([5, 1])
-    with col_title:
-        st.markdown(f"### {cv.full_name}")
-        st.caption(f"{cv.current_role} · {cv.department} · {cv.location}")
-    with col_close:
-        if st.button("✕ Close", key="close_detail"):
-            st.session_state.pop("selected_candidate", None)
-            st.session_state.pop("selected_match", None)
-            st.rerun()
-
+    st.markdown(f"### {cv.full_name}")
+    st.caption(f"{cv.current_role} · {cv.department} · {cv.location}")
     st.divider()
 
     tab_overview, tab_cv, tab_assessments, tab_files = st.tabs(
