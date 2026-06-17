@@ -51,6 +51,17 @@ def render_chat_panel(store: CandidateStore, embedder: Embedder, settings: Setti
                 else:
                     st.markdown(content)
 
+    # 9-Box toggle (shown when candidates are available from last search)
+    if st.session_state.get("nine_box_emp_ids"):
+        show = st.session_state.get("show_nine_box", False)
+        btn_label = "📊 Hide 9-Box" if show else "📊 Show 9-Box"
+        if st.button(btn_label, key="nine_box_toggle"):
+            st.session_state["show_nine_box"] = not show
+            st.rerun()
+        if st.session_state.get("show_nine_box"):
+            from ui.nine_box import render_nine_box
+            render_nine_box(st.session_state["nine_box_emp_ids"], store)
+
     # Handle pending quick-search query
     pending = st.session_state.pop("pending_query", None)
 
@@ -96,6 +107,11 @@ def render_chat_panel(store: CandidateStore, embedder: Embedder, settings: Setti
                         _render_message_content(response_text, store, msg_index=len(history))
                         st.session_state["messages"] = updated_history
                         save_history(db_path, session_id, updated_history)
+                        # Track candidates for 9-box
+                        found_ids = _CARD_TOKEN_RE.findall(response_text)
+                        if found_ids:
+                            st.session_state["nine_box_emp_ids"] = found_ids
+                            st.session_state["show_nine_box"] = False
                     except Exception as e:
                         status_placeholder.empty()
                         error_msg = f"⚠ Error: {e}"

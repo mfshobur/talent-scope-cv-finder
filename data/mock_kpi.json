@@ -1,0 +1,22 @@
+{
+  "emp_002": {"score": 85, "label": "Exceeds Target"},
+  "emp_003": {"score": 71, "label": "Meets Target"},
+  "emp_004": {"score": 55, "label": "Below Target"},
+  "emp_005": {"score": 92, "label": "Exceeds Target"},
+  "emp_006": {"score": 68, "label": "Meets Target"},
+  "emp_007": {"score": 45, "label": "Below Target"},
+  "emp_008": {"score": 88, "label": "Exceeds Target"},
+  "emp_009": {"score": 74, "label": "Meets Target"},
+  "emp_010": {"score": 61, "label": "Meets Target"},
+  "emp_011": {"score": 95, "label": "Exceeds Target"},
+  "emp_012": {"score": 53, "label": "Below Target"},
+  "emp_013": {"score": 78, "label": "Meets Target"},
+  "emp_014": {"score": 82, "label": "Exceeds Target"},
+  "emp_015": {"score": 42, "label": "Below Target"},
+  "emp_016": {"score": 76, "label": "Meets Target"},
+  "emp_017": {"score": 91, "label": "Exceeds Target"},
+  "emp_018": {"score": 65, "label": "Meets Target"},
+  "emp_019": {"score": 58, "label": "Below Target"},
+  "emp_020": {"score": 87, "label": "Exceeds Target"},
+  "emp_021": {"score": 73, "label": "Meets Target"}
+}
