@@ -5,7 +5,6 @@ handles input, and runs the agent.
 
 import re
 import streamlit as st
-import streamlit.components.v1 as components
 
 from agent.agent import collect_response
 from core.embedder import Embedder
@@ -51,26 +50,6 @@ def render_chat_panel(store: CandidateStore, embedder: Embedder, settings: Setti
                     _render_message_content(content, store, msg_index=msg_index)
                 else:
                     st.markdown(content)
-
-    # Scroll chat container to bottom after every rerun (preserves position on View Profile clicks)
-    components.html(
-        """<script>
-        window.parent.document.querySelectorAll('[data-testid="stVerticalBlockBorderWrapper"]')
-            .forEach(el => { if (el.scrollHeight > el.clientHeight) el.scrollTop = el.scrollHeight; });
-        </script>""",
-        height=0,
-    )
-
-    # 9-Box toggle (shown when candidates are available from last search)
-    if st.session_state.get("nine_box_emp_ids"):
-        show = st.session_state.get("show_nine_box", False)
-        btn_label = "📊 Hide 9-Box" if show else "📊 Show 9-Box"
-        if st.button(btn_label, key="nine_box_toggle"):
-            st.session_state["show_nine_box"] = not show
-            st.rerun()
-        if st.session_state.get("show_nine_box"):
-            from ui.nine_box import render_nine_box
-            render_nine_box(st.session_state["nine_box_emp_ids"], store)
 
     # Handle pending quick-search query
     pending = st.session_state.pop("pending_query", None)

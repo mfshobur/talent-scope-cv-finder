@@ -171,3 +171,13 @@ else:
                     render_detail_panel(selected)
         else:
             render_chat_panel(store, embedder, settings, session_id, db_path)
+
+        # 9-box lives outside the column containers so it never gets clipped by height=750
+        if st.session_state.get("nine_box_emp_ids"):
+            from ui.nine_box import render_nine_box
+            show = st.session_state.get("show_nine_box", False)
+            if st.button("📊 Hide 9-Box" if show else "📊 Show 9-Box", key="nine_box_toggle"):
+                st.session_state["show_nine_box"] = not show
+                st.rerun()
+            if st.session_state.get("show_nine_box"):
+                render_nine_box(st.session_state["nine_box_emp_ids"], store)
