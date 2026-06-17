@@ -7,7 +7,7 @@ import streamlit as st
 from core.schemas import CandidateMatch, EmployeeProfile
 
 
-def render_inline_card(profile: EmployeeProfile, match_reasons: list[str] | None = None, fit_gaps: list[str] | None = None, relevance_score: float | None = None):
+def render_inline_card(profile: EmployeeProfile, match_reasons: list[str] | None = None, fit_gaps: list[str] | None = None, relevance_score: float | None = None, card_key: str | None = None):
     eid = profile.employee_id
     cv = profile.cv
 
@@ -37,7 +37,7 @@ def render_inline_card(profile: EmployeeProfile, match_reasons: list[str] | None
             for gap in fit_gaps[:1]:
                 st.markdown(f"⚠ {gap}")
 
-        if st.button("View Profile", key=f"view_{eid}", use_container_width=True):
+        if st.button("View Profile", key=card_key or f"view_{eid}", use_container_width=True):
             st.session_state["selected_candidate"] = profile
             st.session_state["selected_match"] = {
                 "match_reasons": match_reasons or [],
